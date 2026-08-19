@@ -103,11 +103,7 @@ public partial class ThemesSettingsPage : SettingsPageBase
         ViewModel.XamlThemeService.RequestDownloadTheme(id);
     }
 
-    private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-    {
-        await ViewModel.PluginMarketService.RefreshPluginSourceAsync();
-        ViewModel.UpdateMergedThemes();
-    }
+
     
 
     [RelayCommand]

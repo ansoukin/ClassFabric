@@ -51,11 +51,7 @@ public partial class ThemesSettingsViewModel : ObservableObject
     private bool ThemeSourceFilter(KeyValuePair<string, ThemeInfo> kvp)
     {
         var info = kvp.Value;
-        if (!info.IsLocal && ThemeCategoryIndex == 1)
-        {
-            return false;
-        }
-        if (!info.IsAvailableOnMarket && ThemeCategoryIndex == 0)
+        if (!info.IsLocal)
         {
             return false;
         }

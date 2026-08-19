@@ -433,10 +433,7 @@ public partial class PluginsSettingsPage : SettingsPageBase
         ViewModel.IsPluginOperationsPopupOpened = false;
     }
 
-    private async void ButtonBaseRefreshPlugins_OnClick(object sender, RoutedEventArgs e)
-    {
-        await ViewModel.PluginMarketService.RefreshPluginSourceAsync();
-    }
+    
 
     private async void ButtonInstallPlugin_OnClick(object sender, RoutedEventArgs e)
     {
@@ -518,18 +515,7 @@ public partial class PluginsSettingsPage : SettingsPageBase
         }
     }
 
-    private void MenuItemReloadFromCache_OnClick(object sender, RoutedEventArgs e)
-    {
-        ViewModel.IsPluginMarketOperationsPopupOpened = false;
-        ViewModel.PluginMarketService.LoadPluginSource();
-    }
-
-    [RelayCommand]
-    private void OpenPluginSourceManager()
-    {
-        ViewModel.IsPluginMarketOperationsPopupOpened = false;
-        OpenDrawer("PluginSourceManageDrawer");
-    }
+    
 
     private void MenuItemOpenPluginsFolder_OnClick(object sender, RoutedEventArgs e)
     {
@@ -546,17 +532,7 @@ public partial class PluginsSettingsPage : SettingsPageBase
         ViewModel.IsPluginMarketOperationsPopupOpened = false;
     }
 
-    private void ButtonAddPluginSource_OnClick(object sender, RoutedEventArgs e)
-    {
-        ViewModel.SettingsService.Settings.PluginIndexes.Add(new PluginIndexInfo());
-    }
-
-    private void ButtonRemovePluginSource_OnClick(object sender, RoutedEventArgs e)
-    {
-        if (ViewModel.SelectedPluginIndexInfo == null)
-            return;
-        ViewModel.SettingsService.Settings.PluginIndexes.Remove(ViewModel.SelectedPluginIndexInfo);
-    }
+    
 
     private void ListBoxCategory_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -660,16 +636,7 @@ public partial class PluginsSettingsPage : SettingsPageBase
         ViewModel.PluginMarketService.RestartRequested -= OnPluginMarketServiceOnRestartRequested;
     }
 
-    private void ButtonOpenMarket_OnClick(object sender, RoutedEventArgs e)
-    {
-        ViewModel.PluginCategoryIndex = 0;
-    }
-
-    private void MenuItemManagePluginSources_OnClick(object? sender, RoutedEventArgs e)
-    {
-        // 这里清除掉来自 PopupBase 的调用堆栈，防止出现打开抽屉命令执行事件传播错误的问题。
-        Dispatcher.UIThread.InvokeAsync(OpenPluginSourceManager);
-    }
+    
 
     private void MenuItemPluginUpdateSettings_OnClick(object? sender, RoutedEventArgs e)
     {

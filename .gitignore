@@ -376,3 +376,9 @@ cipx/
 **/.idea/copilot.*
 # IDE settings目录整体忽略
 **/.idea/
+
+# 愿景与规范文档：一律不提交（本地私有）
+/RoadMap.md
+/SPEC.md
+doc/RoadMap.md
+doc/SPEC.md

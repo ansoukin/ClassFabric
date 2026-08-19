@@ -31,7 +31,7 @@ public partial class WelcomePage : UserControl, IWelcomePage
         this.ShowToast(new ToastMessage()
         {
             Title = "欢迎使用 ClassFabric",
-            Message = "ClassFabric 是开源免费的软件，官方没有提供任何形式的付费支持服务，源代码仓库地址在 https://github.com/ClassIsland/ClassIsland/。如果您通过有偿协助等付费方式取得本应用，在遇到问题时请在与卖家约定的服务框架下，优先向卖家求助。如果卖家没有提供您预期的服务，请退款或通过其它形式积极维护您的合法权益。",
+            Message = "欢迎使用 ClassFabric！它是基于 ClassIsland 的个人修改版本，感谢原作者 HelloWRC 与上游 ClassIsland 社区的出色工作。ClassFabric 开源免费，官方不提供任何付费支持，源码见 https://github.com/ansoukin/ClassFabric 。使用前提：您会使用 ClassIsland（https://github.com/ClassIsland/ClassIsland ）。另外，若您通过有偿协助等付费方式获得本应用，遇到问题请优先按与卖家约定的服务框架求助；若卖家未提供预期服务，请及时退款或通过其它方式维护您的权益。",
             AutoClose = false,
             Severity = InfoBarSeverity.Warning
         });

@@ -18,7 +18,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       d:DataContext="{d:DesignInstance local:AboutSettingsPage}">
     <controls:SettingsPageBase.Resources>
-        <Grid Margin="16" x:Key="ContributorsDrawer" Width="300" RowDefinitions="Auto,Auto,Auto,*">
+        <Grid Margin="16" x:Key="ContributorsDrawer" Width="300" RowDefinitions="Auto,Auto,Auto,*,Auto">
             <TextBlock Grid.Row="0" Text="贡献人员" Theme="{StaticResource SubtitleTextBlockStyle}" />
             <TextBlock Grid.Row="1" Margin="0 6 0 0" Text="感谢以下同学为本项目做出的贡献！"/>
             <Button Grid.Row="2" HorizontalAlignment="Left" 
@@ -62,6 +62,31 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <Border Grid.Row="4" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="0 1 0 0" Margin="0 8 0 0" Padding="0 8 0 0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" VerticalAlignment="Center"
+                          Width="32" Height="32"
+                          Margin="0 0 6 0">
+                        <Grid.Clip>
+                            <RectangleGeometry RadiusX="16" RadiusY="16"
+                                               Rect="0,0,32,32" />
+                        </Grid.Clip>
+                        <Border Background="{DynamicResource MaterialDesignBody}" Opacity="0.1" />
+                        <asyncImageLoader:AdvancedImage Source="https://avatars.githubusercontent.com/u/101161423?v=4"
+                               Width="32" Height="32">
+                        </asyncImageLoader:AdvancedImage>
+                    </Grid>
+                    <TextBlock Grid.Column="1" TextWrapping="Wrap">
+                        <Run FontSize="15" Text="Ansoukin" />
+                        <LineBreak />
+                        <Run FontSize="11" FontWeight="Light" Text="ClassFabric 二改作者" />
+                    </TextBlock>
+                </Grid>
+            </Border>
         </Grid>
 
         <Grid Margin="16" x:Key="ThirdPartyLibs" Width="300" RowDefinitions="Auto,*">
@@ -117,63 +142,6 @@
     <controls1:StickyScrollViewer CollapsedHeight="58">
         <controls1:StickyScrollViewer.HeaderContent>
             <Grid>
-                <Panel MaxHeight="300" 
-                       Opacity="{Binding $self.(ci2:StickyScrollViewer.HeaderFadingOpacity)}"
-                       Background="Transparent">
-                    <Panel.OpacityMask>
-                        <LinearGradientBrush StartPoint="0%, 0%"
-                                             EndPoint="0%, 100%">
-                            <GradientStop Color="#ffffffff" Offset="0.0"/>
-                            <GradientStop Color="#ffffffff" Offset="0.75"/>
-                            <GradientStop Color="#00ffffff" Offset="0.92"/>
-                        </LinearGradientBrush>
-                    </Panel.OpacityMask>
-                    <Border Background="#0d1111" />
-                    <Panel MaxWidth="{StaticResource SettingsContainerWidth}">
-                        <Panel.Styles>
-                            <Style Selector="Panel">
-                                <Style.Animations>
-                                    <Animation Delay="0:0:0.25" Duration="0:0:0.2"
-                                               FillMode="Both" Easing="0,0 0,1">
-                                        <KeyFrame Cue="0%">
-                                            <Setter Property="Opacity" Value="0.0"/>
-                                        </KeyFrame>
-                                        <KeyFrame Cue="100%">
-                                            <Setter Property="Opacity" Value="1.0"/>
-                                        </KeyFrame>
-                                    </Animation> 
-                                </Style.Animations>
-                            </Style>
-                        </Panel.Styles>
-                        <Border Width="{Binding $self.Bounds.Height}"
-                                HorizontalAlignment="Left"
-                                Margin="-150 -100 0 0">
-                            <Border.Background>
-                                <RadialGradientBrush Center="50%, 50%">
-                                    <GradientStop Offset="0.2" Color="#ff0c0e1f"/>
-                                    <GradientStop Offset="1" Color="#ff0d1111"/>
-                                </RadialGradientBrush>
-                            </Border.Background>
-                        </Border>
-                        <Border Width="{Binding $self.Bounds.Height}"
-                                HorizontalAlignment="Right"
-                                Margin="0 0 100 -50">
-                            <Border.Background>
-                                <RadialGradientBrush Center="50%, 50%">
-                                    <GradientStop Offset="0.2" Color="#ff0c0e1f"/>
-                                    <GradientStop Offset="1" Color="#ff0d1111"/>
-                                </RadialGradientBrush>
-                            </Border.Background>
-                        </Border>
-                    </Panel>
-                    <Image Source="/Assets/BannerMain_App2.png" Stretch="Uniform" 
-                           HorizontalAlignment="Center"
-                           PointerPressed="DebugBorder_OnPointerPressed"
-                           MaxWidth="{StaticResource SettingsContainerWidth}"
-                           VerticalAlignment="Top">
-                        
-                    </Image>
-                </Panel>
                 <Border Margin="12 16 18 0"
                         MaxWidth="{StaticResource SettingsContainerWidth}">
                     <TextBlock FontWeight="Normal"
@@ -195,7 +163,7 @@
                 <controls3:SettingsExpander.IconSource>
                     <controls3:ImageIconSource Source="/Assets/AppLogo.png"/>
                 </controls3:SettingsExpander.IconSource>
-                <controls3:SettingsExpanderItem Description="本项目基于 GNU General Public License v3.0 获得许可。">
+                <controls3:SettingsExpanderItem>
                     <controls3:SettingsExpanderItem.Footer>
                         <WrapPanel Classes="animated-resize">
                             <WrapPanel.Styles>
@@ -214,9 +182,19 @@
                             </HyperlinkButton>
                         </WrapPanel>
                     </controls3:SettingsExpanderItem.Footer>
-                    <TextBlock Background="Transparent" >
-                        <Run Text="Copyright (c) 2023-"/><Run Text="{Binding Year, Source={x:Static system:DateTime.Now}, Mode=OneWay}" /> HelloWRC
+                    <TextBlock>
+                        <Run Text="Copyright (c) 2023-"/><Run Text="{Binding Year, Source={x:Static system:DateTime.Now}, Mode=OneWay}" /><Run Text=" HelloWRC（原作者 ClassIsland）" />
                     </TextBlock>
+                </controls3:SettingsExpanderItem>
+                <controls3:SettingsExpanderItem>
+                    <TextBlock>
+                        <Run Text="Copyright (c) 2026-"/><Run Text="{Binding Year, Source={x:Static system:DateTime.Now}, Mode=OneWay}" /><Run Text=" Ansoukin（ClassFabric 二改作者）" />
+                    </TextBlock>
+                </controls3:SettingsExpanderItem>
+                <controls3:SettingsExpanderItem MinHeight="40">
+                    <TextBlock Text="本项目基于 GNU General Public License v3.0 获得许可。"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                               FontSize="13"/>
                 </controls3:SettingsExpanderItem>
                 <controls3:SettingsExpanderItem Content="常用链接">
                     <controls3:SettingsExpanderItem.Footer>
@@ -228,20 +206,16 @@
                                 </Style>
                             </WrapPanel.Styles>
                             <HyperlinkButton Click="UriNavigationCommands_OnClick"
-                                             CommandParameter="https://classisland.tech">
+                                             CommandParameter="https://github.com/ansoukin/ClassFabric">
                                 <TextBlock Text="项目主页"/>
                             </HyperlinkButton>
                             <HyperlinkButton Click="UriNavigationCommands_OnClick"
                                              CommandParameter="https://docs.classisland.tech">
-                                <TextBlock Text="帮助文档"/>
-                            </HyperlinkButton>
-                            <HyperlinkButton Click="UriNavigationCommands_OnClick"
-                                             CommandParameter="https://github.com/ClassIsland/ClassIsland">
-                                <TextBlock Text="GitHub"/>
+                                <TextBlock Text="帮助文档（ClassIsland）"/>
                             </HyperlinkButton>
                             <HyperlinkButton Click="UriNavigationCommands_OnClick"
                                              CommandParameter="https://docs.classisland.tech/community/">
-                                <TextBlock Text="加入社区"/>
+                                <TextBlock Text="加入社区（ClassIsland）"/>
                             </HyperlinkButton>
                         </WrapPanel>
                     </controls3:SettingsExpanderItem.Footer>
@@ -251,18 +225,6 @@
 
             <controls3:SettingsExpander Header="遇到问题？" IconSource="{commands:FluentIconSource &#xE3F6;}"
                                         IsExpanded="True">
-                <controls3:SettingsExpanderItem
-                    Click="UriNavigationCommands_OnClick"
-                    CommandParameter="https://github.com/ClassIsland/ClassIsland/issues/"
-                    Content="问题反馈/功能建议"
-                    ActionIconSource="{controls1:FluentIconSource &#xEC2E;} "
-                    IsClickEnabled="True"/>
-                <controls3:SettingsExpanderItem
-                    Click="UriNavigationCommands_OnClick"
-                    CommandParameter="https://github.com/ClassIsland/voting/discussions/categories/classfabric?discussions_q=is%3Aopen+category%3AClassFabric+sort%3Atop"
-                    Content="功能投票"
-                    ActionIconSource="{controls1:FluentIconSource &#xEC2E;} "
-                    IsClickEnabled="True"/>
                 <controls3:SettingsExpanderItem 
                     Click="ButtonDiagnosticInfo_OnClick"
                     Content="查看诊断信息"
@@ -294,19 +256,7 @@
                 </controls3:SettingsExpanderItem>
 
             </controls3:SettingsExpander>
-            
-            <controls3:SettingsExpander Header="回声洞" IconSource="{commands:FluentIconSource &#xE55F;}">
-                <controls3:SettingsExpanderItem 
-                    IsClickEnabled="True"
-                    Click="Sayings_OnMouseLeftButtonDown">
-                    <StackPanel>
-                        <controls2:TypingControl
-                                 Text="{Binding ViewModel.Sayings, Mode=OneWay}"
-                                 IsBusy="{Binding ViewModel.IsSayingBusy, Mode=OneWayToSource}"/>
-                    </StackPanel>
-                </controls3:SettingsExpanderItem>
-            </controls3:SettingsExpander>
-            
+
             <TextBlock Text="谨以此应用，献给现在或曾经陪伴着我的同学们。愿时光流转，各位能与所念之人重逢。"
                        Margin="0 8 0 0"
                        Classes="l-instructive" FontSize="13"

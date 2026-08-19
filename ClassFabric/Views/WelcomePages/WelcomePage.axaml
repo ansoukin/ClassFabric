@@ -49,12 +49,12 @@
                 <TextBlock Text="a" />
                 <TextBlock Text="s" />
                 <TextBlock Text="s" />
-                <TextBlock Text="I" />
-                <TextBlock Text="s" />
-                <TextBlock Text="l" />
+                <TextBlock Text="F" />
                 <TextBlock Text="a" />
-                <TextBlock Text="n" />
-                <TextBlock Text="d" />
+                <TextBlock Text="b" />
+                <TextBlock Text="r" />
+                <TextBlock Text="i" />
+                <TextBlock Text="c" />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Spacing="4" VerticalAlignment="Top" HorizontalAlignment="Center">

@@ -162,20 +162,7 @@
                                 <ci:IconText Glyph="&#xE625;" Text="撤销移除"/>
                             </Button>
                         </WrapPanel>
-                        <!-- Market Operations -->
-                        <WrapPanel Orientation="Horizontal" IsEnabled="{Binding DownloadProgress.IsDownloading, Converter={StaticResource InvertBooleanConverter}}"
-                                   Margin="0 0 0 4" Classes="accent">
-                            <WrapPanel.IsVisible>
-                                <MultiBinding Converter="{x:Static BoolConverters.And}">
-                                    <Binding Path="IsLocal" Converter="{StaticResource InvertBooleanConverter}"/>
-                                    <Binding Path="IsAvailableOnMarket"/>
-                                    <Binding Path="RestartRequired" Converter="{StaticResource InvertBooleanConverter}"/>
-                                </MultiBinding>
-                            </WrapPanel.IsVisible>
-                            <Button Click="ButtonInstallPlugin_OnClick" Classes="accent">
-                                <ci:IconText Glyph="&#xE0D3;" Text="安装"/>
-                            </Button>
-                        </WrapPanel>
+                        
                         <WrapPanel Orientation="Horizontal"
                                    Margin="0 0 0 4">
                             <Button VerticalAlignment="Center"
@@ -197,9 +184,7 @@
                         <controls2:InfoBar Message="无法安装插件，请检查您的网络连接。更换插件镜像源可能可以解决此问题。"
                                            Severity="Error"
                                            IsOpen="{Binding DownloadProgress.Exception, Mode=OneWay, Converter={x:Static ObjectConverters.IsNotNull}}">
-                            <controls2:InfoBar.ActionButton>
-                                <HyperlinkButton Click="MenuItemManagePluginSources_OnClick">更换插件镜像源</HyperlinkButton>
-                            </controls2:InfoBar.ActionButton>
+                            
                         </controls2:InfoBar>
                         
                     </StackPanel>
@@ -307,81 +292,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <Grid x:Key="PluginSourceManageDrawer" Width="500"
-              HorizontalAlignment="Stretch"
-              Margin="16" RowDefinitions="Auto,*">
-            <StackPanel Grid.Row="0">
-                <TextBlock Text="管理插件源" Theme="{StaticResource SubtitleTextBlockStyle}"/>
-                
-                <ci:IconText Glyph="&#xE99E;" Text="内置插件源" Margin="0 12 0 8"/>
-                <ci:Field Label="内置插件源镜像" Margin="0 -4">
-                    <ComboBox SelectedValue="{Binding ViewModel.SettingsService.Settings.OfficialSelectedMirror, Mode=TwoWay}"
-                              SelectedValueBinding="{Binding Key}"
-                              ItemsSource="{Binding ViewModel.OfficialPluginMirrors.List}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Key}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </ci:Field>
-                <CheckBox Content="忽略 SSL/TLS 证书错误"
-                          Margin="0 8 0 0"
-                          VerticalAlignment="Center"
-                          ToolTip.Tip="禁用插件镜像证书校验, 将降低安全性。"
-                          IsChecked="{Binding ViewModel.SettingsService.Settings.IgnoreSslForPluginMirrors, Mode=TwoWay}"/>
-                <Separator Margin="0 16 0 8"/>
-                <ci:IconText Glyph="&#xE99A;" Text="自定义插件源" Margin="0 0 0 8"/>
-                <WrapPanel Margin="0 0 0 0">
-                    <Button Theme="{StaticResource TransparentButton}" Click="ButtonAddPluginSource_OnClick">
-                        <ci:IconText Glyph="&#xE00D;" Text="添加"/>
-                    </Button>
-                    <Button Theme="{StaticResource TransparentButton}" Click="ButtonRemovePluginSource_OnClick">
-                        <ci:IconText Glyph="&#xE61D;" Text="删除"/>
-                    </Button>
-                </WrapPanel>
-            </StackPanel>
-            <DataGrid Grid.Row="1" GridLinesVisibility="All"
-                      CanUserSortColumns="False"
-                      AutoGenerateColumns="False"
-                      SelectionMode="Single"
-                      ItemsSource="{Binding ViewModel.SettingsService.Settings.PluginIndexes}"
-                      SelectedItem="{Binding ViewModel.SelectedPluginIndexInfo}">
-                <DataGrid.Styles>
-                    <Style Selector="TextBlock" >
-                        <Setter Property="FontSize" Value="14"/>
-                    </Style>
-                </DataGrid.Styles>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Url" Binding="{Binding Url, Mode=TwoWay}"
-                                        Width="4*"/>
-                    <DataGridTemplateColumn Header="镜像"
-                                            Width="*">
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <ComboBox SelectedValue="{Binding SelectedMirror, Mode=TwoWay}"
-                                          SelectedValueBinding="{Binding Key}"
-                                          Margin="0 -4"
-                                          HorizontalAlignment="Stretch"
-                                          VerticalAlignment="Center"
-                                          ItemsSource="{Binding MirrorsList.List}">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Key}"/>
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding SelectedMirror}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+        
         <converters:LargeNumberToFriendlyNumberConverter x:Key="LargeNumberToFriendlyNumberConverter" />
         <converters:SupportedOSPlatformsToBooleanConverter x:Key="SupportedOSPlatformsToBooleanConverter" />
         <DataTemplate x:Key="InstallPluginConfirmTemplate">
@@ -476,25 +387,12 @@
                             <Style Selector="TextBlock">
                                 <Setter Property="Text" Value="找不到符合条件的插件，请调整筛选条件后重试" />
                                 <Style Selector="^.LocalPlugins.NoPlugins">
-                                    <Setter Property="Text" Value="还没有安装任何插件，不妨去插件市场看看吧" />
+                                    <Setter Property="Text" Value="还没有安装任何插件，可以从本地 .plugin 文件安装" />
                                 </Style>
                             </Style>
                         </TextBlock.Styles>
                     </TextBlock>
-                    <Button HorizontalAlignment="Center" Click="ButtonOpenMarket_OnClick">
-
-                        <Button.IsVisible>
-                            <MultiBinding Converter="{x:Static BoolConverters.And}">
-                                <Binding Path="ViewModel.PluginCategoryIndex" Converter="{x:Static ObjectConverters.Equal}">
-                                    <Binding.ConverterParameter>
-                                        <system:Int32>1</system:Int32>
-                                    </Binding.ConverterParameter>
-                                </Binding>
-                                <Binding Path="!!!Count" Source="{x:Static services:IPluginService.LoadedPlugins}"/>
-                            </MultiBinding>
-                        </Button.IsVisible>
-                        <ci:IconText Glyph="&#xF08B;" Text="前往插件市场" />
-                    </Button>
+                    
                 </StackPanel>
             </Grid>
         </ControlTemplate>
@@ -528,7 +426,7 @@
                             <TabStrip SelectedIndex="{Binding ViewModel.PluginCategoryIndex}"
                                       Classes="compact"
                                       SelectionChanged="ListBoxCategory_OnSelectionChanged">
-                                <TabStripItem Content="市场"/>
+                                
                                 <TabStripItem Content="已安装"/>
                             </TabStrip>
 
@@ -538,15 +436,9 @@
                                     DockPanel.Dock="Right">
                                 <Button.Flyout>
                                     <MenuFlyout>
-                                        <MenuItem Icon="{ci:FluentIcon &#xE0B5;}" Header="从缓存重载插件源" 
-                                                  Click="MenuItemReloadFromCache_OnClick"
-                                                  IsEnabled="{Binding ViewModel.PluginMarketService.IsLoadingPluginSource, Converter={StaticResource InvertBooleanConverter}}"/>
-                                        <MenuItem Icon="{ci:FluentIcon &#xE99A;}" Header="管理插件源…"
-                                                  Click="MenuItemManagePluginSources_OnClick"
-                                                  IsEnabled="{Binding ViewModel.PluginMarketService.IsLoadingPluginSource, Converter={StaticResource InvertBooleanConverter}}"/>
-                                        <MenuItem Icon="{ci:FluentIcon &#xE161;}" Header="插件更新设置…"
-                                                  Click="MenuItemPluginUpdateSettings_OnClick"
-                                                  IsEnabled="{Binding ViewModel.PluginMarketService.IsLoadingPluginSource, Converter={StaticResource InvertBooleanConverter}}"/>
+                                        
+                                        
+                                        
                                         <Separator/>
                                         <MenuItem Icon="{ci:FluentIcon &#xE071;}" Header="从本地安装…"
                                                   Click="ButtonInstallFromLocal_OnClick"/>
@@ -558,16 +450,10 @@
                                 </Button.Flyout>
                             </Button>
                             
-                            <Button DockPanel.Dock="Right" 
-                                    Theme="{StaticResource TransparentButton}"
-                                    Click="ButtonBaseRefreshPlugins_OnClick"
-                                    IsEnabled="{Binding ViewModel.PluginMarketService.IsLoadingPluginSource, Converter={StaticResource InvertBooleanConverter}}">
-                                <ci:IconText Glyph="&#xE0B5;" Text="刷新"/>
-                            </Button>
+                            
 
                         </DockPanel>
-                        <ProgressBar IsVisible="{Binding ViewModel.PluginMarketService.IsLoadingPluginSource}"
-                                     IsIndeterminate="True"/>
+                        
                     </StackPanel>
                     <ListBox Grid.Row="1"
                              ItemsSource="{Binding ViewModel.MergedPluginsFiltered.Items}"

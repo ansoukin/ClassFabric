@@ -119,3 +119,36 @@ Only when explicitly requested:
 ```bash
 ./build.ps1 PublishApp --OsName windows --Arch x64 --Package folder --BuildType full --BuildName appBase --AppVersion 0.0.0.0
 ```
+
+## Build Artifacts & File Cleanup
+
+**背景**: 沙箱（及部分命令行）执行的文件删除会被重定向到回收站并反复堆积；用户 C 盘空间受限，编译/下载缓存应常驻 E:\Project\NetYES。
+
+**约定（编译验证时，尤其是 AI 沙箱执行）:**
+1. 编译产物一律归入仓库内 `bin/`、`obj/`（已被 `.gitignore` 忽略），不要散落到系统盘。
+2. 需要清理产物时，优先用**受控批量命令**，而不是逐文件/逐目录删除：
+   - `dotnet clean`（推荐）
+   - 或精确路径清理: `Remove-Item -Recurse -Force <明确的项目内路径>` 仅限 `bin/`/`obj/`。
+   - 不要做「无目标的全盘扫描后整片删除」。
+3. 禁止在系统位置反复创建/删除临时文件：`C:\Users\Windows\AppData\Local\AvaloniaUI\BuildServices` 等出现在 `AppData` / `LOCALAPPDATA` 下的文件，AI 沙箱一律不得自行删除（会触发回收站重定向）；如确需清理，交用户手动执行或先征询。
+4. 本地临时/日志文件（`*.log`、`powershell.log` 等）不入版本库；清理走 `.gitignore` 而非逐文件删除。
+5. `RoadMap.md` 与 `SPEC.md` 为本地私有文档，**永不提交**（见 `.gitignore`）；任何人不得 `git add` 或 commit 它们。
+6. 若必须删除大量已知文件（如重新拉取资源、重建缓存），先向用户说明将被删除的路径，取得确认后再用一次性 `RunCommand` 完成，并说明会清理完毕的落点。
+
+## Task Dispatcher & External Worker Workflow
+
+Role split that prevents overreach:
+- 总经理 (project owner): sets direction, approves tasks, accepts/rejects deliverables.
+- 副经理 (repo assistant): prepares structured task briefs, dispatches ONE approved task at a time, personally verifies each deliverable (compile + diff) before reporting done, maintains SPEC.
+- External worker agents: execute exactly one approved brief, never overstep scope.
+
+Hard rules (applied to every brief, report, and commit):
+- No emoji in any communication, code, or commit.
+- Task IDs MUST come from SPEC (e.g. `P1-0008`); never invent new IDs or codes.
+- All task briefs and completion reports are delivered as Markdown code blocks / plain text.
+- A brief must pin: exact file paths, precise edits, what NOT to touch, and concrete acceptance criteria.
+- One task per dispatch; no batching or parallel branches on open tasks.
+- The 副经理 independently re-verifies a worker's result (compile + `git diff`) before marking a SPEC item done.
+
+## Writing Style
+- Commit messages and code comments must read naturally, like a human wrote them; avoid AI-sounding phrasing (e.g. over-templated leads, excessive buzzwords, unnatural politeness or hedging). Write commit `feat`/`fix` subject lines plainly and comments that state intent, not filler.

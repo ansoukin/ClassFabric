@@ -16,10 +16,7 @@ public class AboutSettingsViewModel(IManagementService managementService, Settin
     private string _diagnosticInfo = "";
     private bool _isRefreshingContributors;
     private string _license = "";
-    private string _sayings = "点击此处可以查看 ClassFabric 用户群里沙雕群友们的发言";
-    private ObservableCollection<string> _sayingsCollection = [];
     private ObservableCollection<NuGetLicenseInfo> _thirdPartyLibs = [];
-    private bool _isSayingBusy = false;
     private int _clickCount = 0;
     private int _appInfoClickCount = 0;
 
@@ -67,28 +64,6 @@ public class AboutSettingsViewModel(IManagementService managementService, Settin
         }
     }
 
-    public string Sayings
-    {
-        get => _sayings;
-        set
-        {
-            if (value == _sayings) return;
-            _sayings = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public ObservableCollection<string> SayingsCollection
-    {
-        get => _sayingsCollection;
-        set
-        {
-            if (Equals(value, _sayingsCollection)) return;
-            _sayingsCollection = value;
-            OnPropertyChanged();
-        }
-    }
-
     public ObservableCollection<NuGetLicenseInfo> ThirdPartyLibs
     {
         get => _thirdPartyLibs;
@@ -96,19 +71,6 @@ public class AboutSettingsViewModel(IManagementService managementService, Settin
         {
             if (Equals(value, _thirdPartyLibs)) return;
             _thirdPartyLibs = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public Random Random { get; set; } = new();
-
-    public bool IsSayingBusy
-    {
-        get => _isSayingBusy;
-        set
-        {
-            if (value == _isSayingBusy) return;
-            _isSayingBusy = value;
             OnPropertyChanged();
         }
     }

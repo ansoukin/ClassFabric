@@ -132,7 +132,7 @@ public partial class AboutSettingsPage : SettingsPageBase
         {
             ViewModel.SettingsService.Settings.ContributorsCache =
                 await WebRequestHelper.Default.GetJson<AllContributorsRc>(new Uri(
-                    "https://ghfast.top/https://raw.githubusercontent.com/ClassFabric/ClassFabric/master/.all-contributorsrc"));
+                    "https://raw.githubusercontent.com/ClassIsland/ClassIsland/master/.all-contributorsrc"));
         }
         catch (Exception ex)
         {
@@ -162,35 +162,7 @@ public partial class AboutSettingsPage : SettingsPageBase
         }.ShowDialog((TopLevel.GetTopLevel(this) as Window)!);
     }
 
-    private async void Sayings_OnMouseLeftButtonDown(object sender, RoutedEventArgs e)
-    {
-        if (ViewModel.IsSayingBusy)
-        {
-            return;
-        }
 
-        if (ViewModel.SayingsCollection.Count <= 0)
-        {
-            var stream = AssetLoader.Open(new Uri("avares://ClassFabric/Assets/Tellings.txt"));
-
-            var sayings = await new StreamReader(stream).ReadToEndAsync();
-            string[] sayingsArray= sayings.Split(Environment.NewLine);
-            var collection = new ObservableCollection<string>(sayingsArray);
-            var countRaw = collection.Count;
-            for (var i = 0; i < countRaw; i++)
-            {
-                var randomIndex = ViewModel.Random.Next(0, collection.Count - 1);
-                ViewModel.SayingsCollection.Add(collection[randomIndex]);
-                collection.RemoveAt(randomIndex);
-            }
-        }
-        //Console.WriteLine(ViewModel.SayingsCollection.Count);
-        if (ViewModel.SayingsCollection.Count > 0)
-        {
-            ViewModel.Sayings = ViewModel.SayingsCollection[0];
-            ViewModel.SayingsCollection.RemoveAt(0);
-        }
-    }
 
     private async void SettingsExpanderItemShowOssLicense_OnClick(object? sender, RoutedEventArgs e)
     {

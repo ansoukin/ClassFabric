@@ -701,6 +701,8 @@ public partial class App : AppBase, IAppHost
         
         _ = IAppHost.Host.StartAsync();
         IAppHost.GetService<IPluginMarketService>().LoadPluginSource();
+        // 默认禁用新手教程：标记 welcome/init 为已完成，避免首次启动自动弹出
+        IAppHost.TryGetService<ITutorialService>()?.SetIsTutorialCompleted("classfabric.getStarted.welcome/init", true);
         
         if (!Settings.IsWelcomeWindowShowed || ApplicationCommand.Refreshing || ApplicationCommand.Onboarding)
         {

@@ -11,7 +11,7 @@ public interface IUriNavigationService : IPublicUriNavigationService
     /// <summary>
     /// ClassFabric 内部的 uri 协议名
     /// </summary>
-    public static string UriScheme { get; } = "classfabric";
+    public static string UriScheme { get; } = "classisland";
 
     /// <summary>
     /// ClassFabric 应用导航主机名
