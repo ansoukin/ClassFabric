@@ -73,7 +73,7 @@ jobs:
           dotnet workload install macos --version 9.0.300
         
       - name: Add GitHub Package Registry
-        run: dotnet nuget add source --username ClassIsland --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ClassIsland/index.json"
+        run: dotnet nuget add source --username ClassFabric --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ClassIsland/index.json"
         
       - uses: little-core-labs/get-git-tag@v3.0.1
         id: tagName
@@ -120,7 +120,7 @@ jobs:
           - os: linux
             arch: x86
     name: Build_Launcher_${{ matrix.os }}_${{ matrix.arch }}_${{ matrix.build_type }}_${{ matrix.package }}
-    container: ${{ matrix.os == 'linux' && 'ghcr.io/classisland/philia-build-image:main' || '' }}
+    container: ${{ matrix.os == 'linux' && 'ghcr.io/classfabric/philia-build-image:main' || '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -203,7 +203,7 @@ jobs:
         with:
           api-token: '${{ secrets.SIGNPATH_TOKEN }}'
           organization-id: '74962648-db7a-4a10-bfdd-0637542e39df'
-          project-slug: 'ClassIsland'
+          project-slug: 'ClassFabric'
           artifact-configuration-slug: 'sign_bundle_v2'
           signing-policy-slug: release-signing
           github-artifact-id: '${{ steps.upload-sign-bundle.outputs.artifact-id }}'
@@ -275,7 +275,7 @@ jobs:
           path: ./installer/setup.iss
           options: |
             /DAppVersion=${{ github.event.inputs.release_tag || '2.0.0.0' }}
-            /FClassIsland_${{ matrix.os }}_${{ matrix.arch }}_${{ matrix.build_type }}_installer.exe
+            /FClassFabric_${{ matrix.os }}_${{ matrix.arch }}_${{ matrix.build_type }}_installer.exe
             /O${{ github.workspace }}\out_pack
             /DSourceDir=${{ github.workspace }}\out_pack\pack
             /DArch=${{ matrix.arch }}
@@ -292,9 +292,9 @@ jobs:
   build_nupkg:
     runs-on: windows-2022
     env:
-      Solution_Name: ClassIsland.sln
-      Wap_Project_Directory: ClassIsland/ClassIsland
-      Wap_Project_Path: ClassIsland/ClassIsland/ClassIsland.csproj
+      Solution_Name: ClassFabric.sln
+      Wap_Project_Directory: ClassFabric/ClassFabric
+      Wap_Project_Path: ClassFabric/ClassFabric/ClassFabric.csproj
     name: Build Nuget Packages
     steps:
       - name: Checkout
@@ -330,7 +330,7 @@ jobs:
         run: |
           dotnet nuget add source --username github-actions --password $env:GHPKG_KEY --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ClassIsland/index.json"
           dotnet nuget push .\out\package\release\*.nupkg -k $env:GHPKG_KEY --source "github" --skip-duplicate
-          dotnet nuget push .\out\package\release\*.nupkg -k $env:MYGET_ORG_KEY --source https://www.myget.org/F/classisland/api/v3/index.json --skip-duplicate
+          dotnet nuget push .\out\package\release\*.nupkg -k $env:MYGET_ORG_KEY --source https://www.myget.org/F/classfabric/api/v3/index.json --skip-duplicate
 
       - name: Upload Nuget Packages to artifacts
         if: ${{ !matrix.trim_assets }}
